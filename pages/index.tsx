@@ -1,9 +1,11 @@
 import { AreaChart } from "@mantine/charts";
-import { Center, Grid, Group, Paper, RingProgress, Stack, Text } from "@mantine/core";
+import { Center, Container, Grid, Group, Paper, RingProgress, Stack, Text, Title } from "@mantine/core";
 import { startPresents } from "../lib/presents";
 import { useEffect, useState } from "react";
 import { IconDeer, IconGift, IconUsers } from "@tabler/icons-react";
 import StatCard from "../components/StatCard/StatCard";
+import { activeDeer, inactiveDeer } from "../lib/deer";
+import { DataTable } from "mantine-datatable";
 
 function randomIntFromInterval(min: number, max: number) {
   // min and max included
@@ -66,6 +68,7 @@ export default function IndexPage() {
 
   if (!presentData) return null
   return (
+    <Container size='xl'>
     <Grid>
       <Grid.Col span={6}>
         <AreaChart
@@ -76,16 +79,35 @@ export default function IndexPage() {
           series={[{ name: "Presents", color: "green.6" }]}
           curveType="linear"
           yAxisProps={{ domain: ["auto", "auto"] }}
-          m={40}
+          mt={20}
         />
       </Grid.Col>
       <Grid.Col span={6}>
-        <Stack gap={'xs'}>
+        <Stack gap={'xs'} mt={20}>
           <StatCard Icon={IconGift} Value={`${presentData.slice(-1)[0].Presents / 1000000000} Billion`} Title='Total Presents' Percent={(presentData.slice(-1)[0].Presents / 8200000000) * 100}/>
           <StatCard Icon={IconUsers} Value={elves.toString()} Title='Elves On Shift' Percent={(elves / 200) * 100}/>
-          <StatCard Icon={IconDeer} Value={'6'} Title='Ready Deer' Percent={(6 / 9) * 100}/>
+          <StatCard Icon={IconDeer} Value={'7'} Title='Ready Deer' Percent={(6 / 8) * 100}/>
+        </Stack>
+      </Grid.Col>
+      <Grid.Col span={6}>
+        <Stack gap={'xs'} mt={20}>
+          <Title order={4}>Active Raindeer</Title>
+          <DataTable
+            columns={[{ accessor: 'name' }, { accessor: 'position' }, { accessor: 'age' }]}
+            records={activeDeer}
+          />
+        </Stack>
+      </Grid.Col>
+      <Grid.Col span={6}>
+        <Stack gap={'xs'} mt={20}>
+          <Title order={4}>Inactive Raindeer</Title>
+          <DataTable
+            columns={[{ accessor: 'name' }, { accessor: 'position' }, { accessor: 'age' }]}
+            records={inactiveDeer}
+          />
         </Stack>
       </Grid.Col>
     </Grid>
+    </Container>
   );
 }

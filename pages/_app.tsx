@@ -1,5 +1,6 @@
-import "@mantine/core/styles.css";
-import '@mantine/charts/styles.css';
+import "@mantine/core/styles.layer.css";
+import '@mantine/charts/styles.layer.css';
+import 'mantine-datatable/styles.layer.css';
 import Head from "next/head";
 import { MantineProvider } from "@mantine/core";
 import { theme } from "../theme";
