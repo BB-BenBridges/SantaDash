@@ -21,7 +21,6 @@ export default function IndexPage() {
   const [presentData, setPresentData] = useState<presents[]>();
   const [elves, setElves] = useState(43)
   const { isSupported, released, request, release } = useWakeLock({
-    onRequest: () => alert('Screen Wake Lock: requested!'),
     onError: () => alert('An error happened 💥'),
     onRelease: () => alert('Screen Wake Lock: released!'),
   });
@@ -31,7 +30,7 @@ export default function IndexPage() {
       console.log('Screen Wake Lock: supported!');
       request();
     }
-  }, [isSupported, request]);
+  }, []);
 
   useEffect(() => {
     for (var i = 20; i >= 0; i--) {
