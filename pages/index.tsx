@@ -1,11 +1,11 @@
 import { AreaChart } from "@mantine/charts";
-import { Center, Container, Grid, Group, Paper, RingProgress, Stack, Text, Title } from "@mantine/core";
-import { startPresents } from "../lib/presents";
+import { Container, Grid, Stack, Title } from "@mantine/core";
 import { useEffect, useState } from "react";
 import { IconDeer, IconGift, IconUsers } from "@tabler/icons-react";
 import StatCard from "../components/StatCard/StatCard";
 import { activeDeer, inactiveDeer } from "../lib/deer";
 import { DataTable } from "mantine-datatable";
+import { useWakeLock } from 'react-screen-wake-lock';
 
 function randomIntFromInterval(min: number, max: number) {
   // min and max included
@@ -20,6 +20,18 @@ interface presents {
 export default function IndexPage() {
   const [presentData, setPresentData] = useState<presents[]>();
   const [elves, setElves] = useState(43)
+  const { isSupported, released, request, release } = useWakeLock({
+    onRequest: () => alert('Screen Wake Lock: requested!'),
+    onError: () => alert('An error happened 💥'),
+    onRelease: () => alert('Screen Wake Lock: released!'),
+  });
+
+  useEffect(() => {
+    if (isSupported) {
+      console.log('Screen Wake Lock: supported!');
+      request();
+    }
+  }, [isSupported, request]);
 
   useEffect(() => {
     for (var i = 20; i >= 0; i--) {
